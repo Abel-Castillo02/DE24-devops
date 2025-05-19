@@ -7,8 +7,8 @@ class TestDummy(unittest.TestCase):
     #    self.assertTrue(True)
 
     # Alwass fails
-    #def test_dummy_fail(self):
-    #    self.assertTrue(False)
+    def test_dummy_fail(self):
+        self.assertTrue(False)
     
     pass
 
