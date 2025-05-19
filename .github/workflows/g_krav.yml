@@ -1,0 +1,54 @@
+name: G-Krav
+
+on:
+  push:
+    branches: [ "g_krav_tests" ]
+
+  pull_request:
+    branches: [ "g-krav" ]
+
+permissions:
+  id-token: write
+  pages: write
+  contents: read
+  
+jobs:
+
+  build_g-krav:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest    
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:    
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+
+        # Install Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+  
+
+        # Run dymmy tests
+      - name: Run dummy tests
+        run: python test_dummy.py
+
+
+        # Deploy to GitHub Pages
+      - name: Copy to dist
+        run: |
+          mkdir dist
+          cp index.html dist/index.html
+          cp data.json dist/data.json
+          cp script.js dist/script.js      
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'dist'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
